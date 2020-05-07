@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+        @RenderBody()
+        <!--
+            add required to make it optioneel
+            RenderSection("Scripts", required: false);
+
+                 or u can check it before call it
+        -->
+
+        @if (IsSectionDefined("Scripts"))
+        {
+            @RenderSection("Scripts", required: true);
+
+        }
+
+
+    </div>
+    <!--
+    <script src="~/js/CustamScript.js"></script>
+    -->
+
+</body>
+</html>

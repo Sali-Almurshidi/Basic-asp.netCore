@@ -1,0 +1,39 @@
+﻿<!--
+    we can use this one if the return value from the models file
+   WebApplication.Models.Employee
+
+
+    model WebApplication.ViewModels.HomeDetalisViewModels
+    change that to be shorter and add all the path in view imports
+-->
+
+@model HomeDetalisViewModels;
+
+
+
+<h1> detailes view </h1>
+<!-- here u do not need to parse to the string because it is string-->
+<h2>@ViewData["PageTitle"]</h2>
+<h2>@ViewBag.PageTitleBag</h2>
+
+
+
+@{
+    // view data it is the dynamically resolved at runtime
+    // view data need to parse
+    var employee = ViewData["Employee"] as WebApplication.Models.Employee;
+    // view bad does not need parse
+}
+<!--
+<h6>name with view bag : @ViewBag.EmployeeBag.Name</h6>
+<h6>name with view bag : @ViewBag.EmployeeBag.Email</h6>
+
+<h6>name : @employee.Name</h6>
+<h6>name : @employee.Email</h6>
+
+
+
+<h6>name strongly typed view </h6>
+    -->
+
+<h6>name with view model : @Model.Employee.Name</h6>
