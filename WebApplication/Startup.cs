@@ -68,6 +68,7 @@ namespace WebApplication
             //app.UseMvcWithDefaultRoute();
             // app.UseRouting();
             //app.UseMvc();
+
             app.UseMvc(routes =>
             {
                 // to makr the id optional add ?

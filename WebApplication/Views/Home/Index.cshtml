@@ -5,23 +5,26 @@
 
     // u can say
     // layout = "_layout2" to override  or "null"
-};
-<table>
-    <tr>
-        <th>id</th>
-        <th>name</th>
-    </tr>
+}
+<div class="card-deck">
+    @foreach (var Employee in Model)
+    {
+        <div class="card m-3">
+            <div class="card-header">
+                <h3>@Employee.Name</h3>
+                <h3>@Employee.Id</h3>
+            </div>
+            <div class="card-footer text-center">
+                <a href="#" class="btn btn-primary">View</a>
+                <a href="#" class="btn btn-primary">Edit</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
 
-    <tbody>
-        @foreach (var Employee in Model)
-        {
-            <tr>
-                <th>@Employee.Id</th>
-                <th>@Employee.Name</th>
-            </tr>
-        }
-    </tbody>
-</table>
+    }
+</div>
+
+
 @section Scripts{
     <script src="~/js/CustamScript.js"></script>
 }

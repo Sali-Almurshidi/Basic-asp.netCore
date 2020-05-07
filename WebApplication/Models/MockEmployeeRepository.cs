@@ -23,11 +23,11 @@ namespace WebApplication.Models
             return _employeeList.FirstOrDefault(e => e.Id == Id);
         }
 
-        Employee IEmployeeRepository.GetEmployee(int Id)
-        {
-            throw new NotImplementedException();
-            //return _employeeList;
-        }
+        //Employee IEmployeeRepository.GetEmployee(int Id)
+        //{
+        //    throw new NotImplementedException();
+        //    //return _employeeList;
+        //}
 
         IEnumerable<Employee> IEmployeeRepository.GetEmployees()
         {
