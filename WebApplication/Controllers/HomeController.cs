@@ -61,5 +61,10 @@ namespace WebApplication.Controllers
             // return HomeDetalisViewModels this is a view models way
             return View(homeDetalisViewModels);
         }
+
+        public ViewResult Create()
+        {
+            return View();
+        }
     }
 }

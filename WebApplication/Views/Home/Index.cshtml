@@ -15,9 +15,26 @@
                 <h3>@Employee.Id</h3>
             </div>
             <div class="card-footer text-center">
-                <a href="#" class="btn btn-primary">View</a>
-                <a href="#" class="btn btn-primary">Edit</a>
-                <a href="#" class="btn btn-danger">Delete</a>
+                <a asp-controller="Home" asp-action="Detalis" asp-route-id="@Employee.Id" class="btn btn-primary m-1">
+                    view
+                </a>
+
+
+                <!--
+
+                <a href=" @Url.Action("Detalis", "Home", new { id = Employee.Id })" class="btn btn-primary">
+                    view
+                </a>
+
+                @Html.ActionLink("View", "Detalis", "Home", new { id = Employee.Id })
+
+                    details = action , Home = controller
+
+                    <a href="/Home/Detalis/@Employee.Id" class="btn btn-primary">View</a>
+                -->
+
+                <a href="#" class="btn btn-primary m-1">Edit</a>
+                <a href="#" class="btn btn-danger m-1">Delete</a>
             </div>
         </div>
 

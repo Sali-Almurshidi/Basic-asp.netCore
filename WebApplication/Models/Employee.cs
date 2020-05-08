@@ -10,7 +10,7 @@ namespace WebApplication.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Department { get; set; }
+        public Department Department { get; set; } // enum type because it is list
     }
 
 }
