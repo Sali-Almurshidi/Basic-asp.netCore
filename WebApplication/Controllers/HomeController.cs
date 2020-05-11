@@ -62,9 +62,23 @@ namespace WebApplication.Controllers
             return View(homeDetalisViewModels);
         }
 
+        [HttpGet]
         public ViewResult Create()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult Create(Employee employee)
+        {
+            // to check to model is valid
+            if (ModelState.IsValid)
+            {
+                Employee newEmployee = _employeeRepository.Add(employee);
+                // to move to detalis page
+                return RedirectToAction("Detalis", new { id = newEmployee.Id });
+            }
+            return View();
+
         }
     }
 }
