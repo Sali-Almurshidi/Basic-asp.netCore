@@ -11,5 +11,8 @@ namespace WebApplication.Models
         IEnumerable<Employee> GetEmployees();
         // method to add employee
         Employee Add(Employee employee);
+
+        Employee Update(Employee employeeChanges);
+        Employee Delete(int id);
     }
 }
