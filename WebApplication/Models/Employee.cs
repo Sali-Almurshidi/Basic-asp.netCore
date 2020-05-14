@@ -18,6 +18,8 @@ namespace WebApplication.Models
         public string Email { get; set; }
         [Required]
         public Department? Department { get; set; } // enum type because it is list
+
+        public string PhotoPath { get; set; }
     }
 
 }
