@@ -1,14 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication.Models;
 
-namespace WebApplication.Models
+namespace WebApplication.ViewModels
 {
-    public class Employee
+    public class EmployeeCreateViewModel
     {
-        public int Id { get; set; }
+
         [Required]
         [MaxLength(50, ErrorMessage = "toooo longe")]
         public string Name { get; set; }
@@ -19,7 +21,6 @@ namespace WebApplication.Models
         [Required]
         public Department? Department { get; set; } // enum type because it is list
 
-        public string Photo { get; set; }
+        public IFormFile Photo { get; set; }
     }
-
 }

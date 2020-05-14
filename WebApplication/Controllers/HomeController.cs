@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApplication.Models;
@@ -12,9 +14,14 @@ namespace WebApplication.Controllers
     public class HomeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
-        public HomeController(IEmployeeRepository employeeRepository)
+        [Obsolete]
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        [Obsolete]
+        public HomeController(IEmployeeRepository employeeRepository, IHostingEnvironment hostingEnvironment)
         {
             _employeeRepository = employeeRepository;
+            _hostingEnvironment = hostingEnvironment;
         }
         [Route("~/Home")]
         [Route("~/")]
@@ -68,16 +75,43 @@ namespace WebApplication.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Employee employee)
+        [Obsolete]
+        public IActionResult Create(EmployeeCreateViewModel model)
         {
             // to check to model is valid
             if (ModelState.IsValid)
             {
-                Employee newEmployee = _employeeRepository.Add(employee);
+                string uniqueFileName = null;
+
+                if (model.Photo != null)
+                {
+
+                    // to save the photo in images file
+                    string uploadsFolder = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot/images");
+                    // give the photo unique name
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+                // create new Employee object to send the data to data base
+                Employee newEmployee = new Employee
+                {
+                    Name = model.Name,
+                    Email = model.Email,
+                    Department = model.Department,
+                    Photo = uniqueFileName
+
+                };
+                _employeeRepository.Add(newEmployee);
+
+                // Employee newEmployee = _employeeRepository.Add(employee);
                 // to move to detalis page
                 return RedirectToAction("Detalis", new { id = newEmployee.Id });
             }
             return View();
+
+
 
         }
     }
