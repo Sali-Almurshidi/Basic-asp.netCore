@@ -21,6 +21,6 @@ namespace WebApplication.ViewModels
         [Required]
         public Department? Department { get; set; } // enum type because it is list
 
-        public IFormFile Photo { get; set; }
+        public List<IFormFile> Photos { get; set; }
     }
 }

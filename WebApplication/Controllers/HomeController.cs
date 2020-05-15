@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -83,16 +84,20 @@ namespace WebApplication.Controllers
             {
                 string uniqueFileName = null;
 
-                if (model.Photo != null)
+                if (model.Photos != null && model.Photos.Count > 0)
                 {
+                    // can select more than one photo
+                    foreach (IFormFile photo in model.Photos)
+                    {
+                        // to save the photo in images file
+                        string uploadsFolder = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot/images");
+                        // give the photo unique name
+                        uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
 
-                    // to save the photo in images file
-                    string uploadsFolder = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot/images");
-                    // give the photo unique name
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                        photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                    }
 
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
                 // create new Employee object to send the data to data base
                 Employee newEmployee = new Employee
