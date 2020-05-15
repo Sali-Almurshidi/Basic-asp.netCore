@@ -76,48 +76,17 @@ namespace WebApplication.Controllers
             return View();
         }
 
-        [HttpGet]
-        public ViewResult Edit(int id)
-        {
-            Employee employee = _employeeRepository.GetEmployee(id);
-
-            EmployeeEditViewModel employeeEditViewModel = new EmployeeEditViewModel
-            {
-                Id = employee.Id,
-                Name = employee.Name,
-                Email = employee.Email,
-                Department = employee.Department,
-                ExistingPhotoPath = employee.Photo
-            };
-
-            return View(employeeEditViewModel);
-        }
-
-
         [HttpPost]
         [Obsolete]
         public IActionResult Create(EmployeeCreateViewModel model)
         {
+
+
             // to check to model is valid
             if (ModelState.IsValid)
             {
-                string uniqueFileName = null;
+                string uniqueFileName = processUploadedFile(model);
 
-                if (model.Photos != null && model.Photos.Count > 0)
-                {
-                    // can select more than one photo
-                    foreach (IFormFile photo in model.Photos)
-                    {
-                        // to save the photo in images file
-                        string uploadsFolder = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot/images");
-                        // give the photo unique name
-                        uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
-
-                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                        photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                    }
-
-                }
                 // create new Employee object to send the data to data base
                 Employee newEmployee = new Employee
                 {
@@ -137,6 +106,84 @@ namespace WebApplication.Controllers
 
 
 
+        }
+
+        [HttpGet]
+        public ViewResult Edit(int id)
+        {
+            Employee employee = _employeeRepository.GetEmployee(id);
+
+            EmployeeEditViewModel employeeEditViewModel = new EmployeeEditViewModel
+            {
+                Id = employee.Id,
+                Name = employee.Name,
+                Email = employee.Email,
+                Department = employee.Department,
+                ExistingPhotoPath = employee.Photo
+            };
+
+            return View(employeeEditViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EmployeeEditViewModel model)
+        {
+
+            // to check to model is valid
+            if (ModelState.IsValid)
+            {
+                Employee employee = _employeeRepository.GetEmployee(model.Id);
+                employee.Name = model.Name;
+                employee.Email = model.Email;
+                employee.Department = model.Department;
+
+                if (model.Photos != null)
+                {
+                    if (model.ExistingPhotoPath != null)
+                    {
+                        string filePath = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot/images", model.ExistingPhotoPath);
+                        System.IO.File.Delete(filePath);
+                    }
+                    employee.Photo = processUploadedFile(model);
+                }
+
+                _employeeRepository.Update(employee);
+
+                // Employee newEmployee = _employeeRepository.Add(employee);
+                // to move to detalis page
+                return RedirectToAction("index");
+            }
+            return View();
+
+
+
+        }
+
+        private string processUploadedFile(EmployeeCreateViewModel model)
+        {
+            string uniqueFileName = null;
+
+            if (model.Photos != null && model.Photos.Count > 0)
+            {
+
+                // can select more than one photo
+                foreach (IFormFile photo in model.Photos)
+                {
+                    // to save the photo in images file
+                    string uploadsFolder = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot/images");
+                    // give the photo unique name
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        photo.CopyTo(fileStream);
+                    }
+                    // photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+
+            }
+
+            return uniqueFileName;
         }
     }
 }
