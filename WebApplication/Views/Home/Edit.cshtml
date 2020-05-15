@@ -1,24 +1,27 @@
-﻿@model EmployeeCreateViewModel
-<!--
-    inject IEmployeeRepository _empRepository;
--->
+﻿@model EmployeeEditViewModel
 
 @{
-    ViewBag.Title = "Create Employee";
+    ViewBag.Title = "Edit Employee";
+    var photoPath = "~/Images/" + (Model.ExistingPhotoPath ?? "avatar.png");
 }
 
-<form enctype="multipart/form-data" asp-action="Create" method="post">
+<form enctype="multipart/form-data" asp-action="Edit" asp-controller="Home" method="post">
+    <!-- because wr do not to disblay the id-->
+    <input hidden asp-for="Id" />
+    <input hidden asp-for="ExistingPhotoPath" />
 
     <div class="form-group row">
         <label asp-for="Name" class="col-sm-2 col-form-label"></label>
         <input asp-for="Name" placeholder="Name" class="from-control" />
         <span asp-validation-for="Name" class="text-danger"> Enter ur name</span>
     </div>
+
     <div class="form-group row">
         <label asp-for="Email" class="col-sm-2 col-form-label"></label>
         <input asp-for="Email" placeholder="Email" class="from-control" />
         <span asp-validation-for="Email" class="text-danger"> Enter ur Email</span>
     </div>
+
     <div class="form-group row">
         <label asp-for="Department" class="col-sm-2 col-form-label"></label>
         <select asp-for="Department"
@@ -37,15 +40,18 @@
             <div class="custom-file">
                 <!-- add multiple to let user to select more than one photo -->
                 <input multiple asp-for="Photos" class="from-control custom-file-input" />
-                <label class="custom-file-label">Chooser File...</label>
+                <label class="custom-file-label">Chanage photo ...</label>
             </div>
         </div>
 
     </div>
 
+    <img src="@photoPath" class="imageThumbnail" asp-append-version="true" />
+
     <div asp-validation-summary="All"></div>
 
-    <button class="bg-danger" type="submit">Create</button>
+    <button class="bg-danger btn btn-primary" type="submit">update</button>
+    <a class="bg-danger btn btn-primary" asp-action="index" asp-controller="home">cancel</a>
 
     <!--
 
@@ -75,9 +81,9 @@
                 fileLable.html(files[0].name)
             }
 
-                                        });
+                                                        });
 
-                                    });
+                                                    });
         </script>
 
     }

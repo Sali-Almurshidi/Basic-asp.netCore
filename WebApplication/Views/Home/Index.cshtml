@@ -36,8 +36,8 @@
                     var photoPath = "~/Images/" + Employee.Photo ?? "noimage.jpg";
                 }
 
-                <img src="@photoPath" asp-append-version="true" />
-                <a href="#" class="btn btn-primary m-1">Edit</a>
+                <img src="@photoPath" asp-append-version="true" class="imageThumbnail" />
+                <a asp-action="edit" asp-controller="home" asp-route-id="@Employee.Id" class="btn btn-primary m-1">Edit</a>
                 <a href="#" class="btn btn-danger m-1">Delete</a>
             </div>
         </div>

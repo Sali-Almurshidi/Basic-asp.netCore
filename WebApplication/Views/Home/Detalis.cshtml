@@ -15,7 +15,7 @@
     // view data need to parse
     var employee = ViewData["Employee"] as WebApplication.Models.Employee;
     // view bad does not need parse
-    var photoPath = "~/Images/" + Model.Employee.Photo ?? "noimage.jpg";
+    var photoPath = "~/Images/" + Model.Employee.Photo ?? "avatar.png";
 }
 
 
@@ -27,15 +27,18 @@
 
     -->
 
-<h6>name : @employee.Name</h6>
-<h6>email : @employee.Email</h6>
+<h6>name : @Model.Employee.Name</h6>
+<h6>email : @Model.Employee.Email</h6>
+<h6>department : @Model.Employee.Department</h6>
 <!--a unique hash value to img url-->
 <img src="@photoPath" asp-append-version="true" />
 
 <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
     Back
 </a>
-<a href="#" class="btn btn-primary">Edit</a>
+
+<a asp-route="@Model.Employee.Id" asp-action="edit" asp-controller="home" class="btn btn-primary">Edit</a>
+
 <a href="#" class="btn btn-danger">Delete</a>
 
 <!--
