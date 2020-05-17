@@ -49,6 +49,13 @@ namespace WebApplication
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                // to display page not found error
+                //app.UseStatusCodePages();
+                //to customize th not found error page 
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
+            }
             //DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
             //defaultFilesOptions.DefaultFileNames.Clear();
             //defaultFilesOptions.DefaultFileNames.Add("foo.html");
