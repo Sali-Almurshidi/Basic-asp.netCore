@@ -45,10 +45,20 @@ namespace WebApplication.Controllers
         [Route("{id?}")]
         public ViewResult Detalis(int id)
         {
+
+            Employee employee = _employeeRepository.GetEmployee(id);
+
+            if (employee == null)
+            {
+                Response.StatusCode = 404;
+                return View("EmployeeNotFound", id);
+            }
+
             HomeDetalisViewModels homeDetalisViewModels = new HomeDetalisViewModels()
             {
                 // if id= null so use thz default value 1  id ?? 1
-                Employee = _employeeRepository.GetEmployee(id),
+                //Employee = _employeeRepository.GetEmployee(id),
+                Employee = employee,
 
                 PageTitleView = "Employee Details"
             };
