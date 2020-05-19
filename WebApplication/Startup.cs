@@ -53,8 +53,15 @@ namespace WebApplication
             {
                 // to display page not found error
                 //app.UseStatusCodePages();
+
                 //to customize th not found error page 
-                app.UseStatusCodePagesWithReExecute("/Error/{0}");
+                // take error 404 and status 200 ok 
+                //app.UseStatusCodePagesWithReExecute("/Error/{0}");
+
+                // tow way to customize not found error page 
+                // take just status 404 
+                app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithRedirects("/Error/{0}");
             }
             //DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
             //defaultFilesOptions.DefaultFileNames.Clear();
