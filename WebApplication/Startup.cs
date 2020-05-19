@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,7 @@ namespace WebApplication
 
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(connectionString));
 
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddMvc().AddXmlDataContractSerializerFormatters();
             //services.AddMvc();
@@ -75,7 +77,7 @@ namespace WebApplication
             //app.UseDefaultFiles(defaultFilesOptions);
             // should to call static files before mvc
             app.UseStaticFiles();
-
+            app.UseAuthentication();
 
             //app.UseRouting();
             //app.UseEndpoints(builder => builder.MapControllers());

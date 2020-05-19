@@ -45,7 +45,7 @@ namespace WebApplication.Controllers
         [Route("{id?}")]
         public ViewResult Detalis(int id)
         {
-            throw new Exception("Error in Detailes view");
+            //throw new Exception("Error in Detailes view");
 
             Employee employee = _employeeRepository.GetEmployee(id);
 
