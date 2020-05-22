@@ -27,6 +27,14 @@ namespace WebApplication
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // to customize Error message 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 10;
+                options.Password.RequiredUniqueChars = 3;
+                // options.Password.RequireNonAlphanumeric = false;
+            });
+
             var connectionString = _config.GetConnectionString("DevConnections");
 
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(connectionString));
