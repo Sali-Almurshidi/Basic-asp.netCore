@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -26,6 +27,7 @@ namespace WebApplication.Controllers
         }
         [Route("~/Home")]
         [Route("~/")]
+        [AllowAnonymous]
         public ViewResult Index()
         {
             // to return just one element
@@ -43,6 +45,7 @@ namespace WebApplication.Controllers
         }
 
         [Route("{id?}")]
+        [AllowAnonymous]
         public ViewResult Detalis(int id)
         {
             //throw new Exception("Error in Detailes view");
@@ -82,6 +85,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ViewResult Create()
         {
             return View();
@@ -89,6 +93,7 @@ namespace WebApplication.Controllers
 
         [HttpPost]
         [Obsolete]
+        [Authorize]
         public IActionResult Create(EmployeeCreateViewModel model)
         {
 
@@ -120,6 +125,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ViewResult Edit(int id)
         {
             Employee employee = _employeeRepository.GetEmployee(id);
@@ -137,6 +143,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Edit(EmployeeEditViewModel model)
         {
 
