@@ -21,8 +21,6 @@ namespace WebApplication.Controllers
             this._signInManager = signInManager;
         }
 
-
-
         [HttpGet]
         public IActionResult Register()
         {
@@ -56,6 +54,13 @@ namespace WebApplication.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("index", "home");
         }
     }
 }
