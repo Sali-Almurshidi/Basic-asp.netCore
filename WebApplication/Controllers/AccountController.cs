@@ -88,8 +88,9 @@ namespace WebApplication.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl))
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
+                        // for more secuerty use LocalRedirect not Redirect
                         return Redirect(returnUrl);
                     }
                     else
