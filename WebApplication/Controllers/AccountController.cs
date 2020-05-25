@@ -66,5 +66,44 @@ namespace WebApplication.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("index", "home");
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var result = await _signInManager.PasswordSignInAsync(model.Email,
+                          model.Password, model.RememberMe, lockoutOnFailure: true);
+
+                // var result = await _signInManager.CheckPasswordSignInAsync(_signInManager, model.Password, false);
+
+                if (result.Succeeded)
+                {
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("index", "home");
+                    }
+
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
+
+            }
+
+            return View(model);
+        }
     }
 }
